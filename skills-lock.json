@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "skills": {
+    "frontend-design": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "skillPath": "skills/frontend-design/SKILL.md",
+      "computedHash": "93f53fd1c0352d3d7ec17b8f73d7351bf76f4821e55d123c9d2abc2c53ba48e4"
+    },
+    "lead-magnet": {
+      "source": "openclaudia/openclaudia-skills",
+      "sourceType": "github",
+      "skillPath": "skills/lead-magnet/SKILL.md",
+      "computedHash": "acd52339c06575078449d6ae12001927c3eaec233a378f95462dda4287f534ea"
+    },
+    "seo-audit": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "skillPath": "skills/seo-audit/SKILL.md",
+      "computedHash": "71435fbaf3622f1a6b16e20fda15f19aa8e285c9914fdeb92ac0a7612d6317bb"
+    },
+    "cybersecurity-analyst": {
+      "source": "rysweet/amplihack",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/cybersecurity-analyst/SKILL.md",
+      "computedHash": "sha256:c15b191bf605c3e8760db5e95950e0abdfcc78017160d6141a6a41856e345a2e",
+      "note": "Installed manually via git sparse extraction (git show), not the skills CLI: the upstream repo contains a file literally named ':memory:' elsewhere in the tree, which is an invalid path on Windows/NTFS and makes a normal clone/checkout fail. Only the cybersecurity-analyst/ subtree's 4 files were pulled."
+    }
+  }
+}

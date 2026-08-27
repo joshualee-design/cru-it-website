@@ -6,3 +6,6 @@ ehthumbs.db
 # Editor
 .vscode/
 *.swp
+
+# Duplicate cross-agent skill copies (only .claude/skills is used)
+.agents/
