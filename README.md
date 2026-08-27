@@ -5,6 +5,8 @@
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
 ![No Frameworks](https://img.shields.io/badge/frameworks-none-informational)
 
+![Screenshot of the CRU Asia Limited website hero section](assets/screenshot.png)
+
 ## About
 
 A single-page marketing site for **CRU Asia Limited**, a fictional IT services
