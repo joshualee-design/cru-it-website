@@ -1,0 +1,8 @@
+# OS junk
+Thumbs.db
+ehthumbs.db
+.DS_Store
+
+# Editor
+.vscode/
+*.swp
