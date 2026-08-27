@@ -10,13 +10,72 @@
  */
 const FORM_ENDPOINT = 'https://example.com/api/enquiries';
 
+/**
+ * LEAD_MAGNET_ENDPOINT
+ * Placeholder endpoint for the "Free IT Security Readiness Checklist" email
+ * capture. Same swap-in pattern as FORM_ENDPOINT above. POSTs JSON:
+ * { email }
+ *
+ * NOTE: if you point either FORM_ENDPOINT or LEAD_MAGNET_ENDPOINT at a real
+ * domain, also update the Content-Security-Policy meta tag in index.html
+ * (connect-src / form-action) — the CSP currently only allows
+ * 'self' and https://example.com, and will silently block fetch() to any
+ * other origin.
+ */
+const LEAD_MAGNET_ENDPOINT = 'https://example.com/api/lead-magnet';
+
 document.addEventListener('DOMContentLoaded', () => {
+  initThemeToggle();
   initNavToggle();
   initFadeInOnScroll();
   initTestimonialCarousel();
   initEnquiryForm();
+  initLeadMagnetForm();
   initCurrentYear();
 });
+
+/**
+ * initThemeToggle
+ * Applies the visitor's saved theme preference (if any) on load, and wires
+ * the header button to flip between light/dark, persisting the choice to
+ * localStorage as "light"/"dark" so it survives a page reload. With no
+ * saved preference, the site follows the OS-level prefers-color-scheme via
+ * CSS alone — this only takes over once the visitor makes an explicit choice.
+ */
+function initThemeToggle() {
+  const toggle = document.getElementById('themeToggle');
+  if (!toggle) return;
+
+  const STORAGE_KEY = 'cru-theme';
+  let saved = null;
+  try {
+    saved = localStorage.getItem(STORAGE_KEY);
+  } catch (storageError) {
+    // Private browsing / disabled storage — fall back to OS preference only.
+  }
+
+  if (saved === 'light' || saved === 'dark') {
+    applyTheme(saved);
+  }
+
+  toggle.addEventListener('click', () => {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const current = document.documentElement.getAttribute('data-theme') || (prefersDark ? 'dark' : 'light');
+    const next = current === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    try {
+      localStorage.setItem(STORAGE_KEY, next);
+    } catch (storageError) {
+      // Ignore — theme still applies for this page view.
+    }
+  });
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    toggle.setAttribute('aria-pressed', String(theme === 'dark'));
+    toggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+}
 
 /**
  * initNavToggle
@@ -250,6 +309,82 @@ function initEnquiryForm() {
   function showSuccess() {
     form.hidden = true;
     successPanel.hidden = false;
+  }
+}
+
+/**
+ * initLeadMagnetForm
+ * Handles the "Free IT Security Readiness Checklist" email-capture form:
+ * a lighter-weight sibling of initEnquiryForm with just one field, its own
+ * validation, loading state, and success message.
+ */
+function initLeadMagnetForm() {
+  const form = document.getElementById('leadMagnetForm');
+  if (!form) return;
+
+  const emailInput = document.getElementById('lead-email');
+  const emailError = document.getElementById('leadEmailError');
+  const submitBtn = document.getElementById('leadMagnetSubmitBtn');
+  const statusEl = document.getElementById('leadMagnetStatus');
+  const successEl = document.getElementById('leadMagnetSuccess');
+  const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  emailInput.addEventListener('blur', validate);
+
+  function validate() {
+    const value = emailInput.value.trim();
+    const message = !value
+      ? 'Enter your email address.'
+      : !EMAIL_REGEX.test(value)
+        ? 'Enter a valid email address.'
+        : '';
+
+    if (message) {
+      emailInput.setAttribute('aria-invalid', 'true');
+      emailInput.setAttribute('aria-describedby', emailError.id);
+      emailError.textContent = message;
+      emailError.hidden = false;
+    } else {
+      emailInput.removeAttribute('aria-invalid');
+      emailError.hidden = true;
+    }
+    return !message;
+  }
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!validate()) return;
+
+    submitBtn.disabled = true;
+    submitBtn.querySelector('.btn__spinner').hidden = false;
+    submitBtn.querySelector('.btn__label').textContent = 'Sending…';
+    statusEl.textContent = '';
+
+    try {
+      const response = await fetch(LEAD_MAGNET_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: emailInput.value.trim() }),
+      });
+
+      if (!response.ok) {
+        statusEl.textContent = `Something went wrong (server responded ${response.status}). Please try again.`;
+        resetButton();
+        return;
+      }
+
+      form.hidden = true;
+      successEl.hidden = false;
+    } catch (networkError) {
+      statusEl.textContent = 'Network error — please check your connection and try again.';
+      resetButton();
+    }
+  });
+
+  function resetButton() {
+    submitBtn.disabled = false;
+    submitBtn.querySelector('.btn__spinner').hidden = true;
+    submitBtn.querySelector('.btn__label').textContent = 'Send me the checklist';
   }
 }
 

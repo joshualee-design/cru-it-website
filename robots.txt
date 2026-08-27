@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://joshualee-design.github.io/cru-it-website/sitemap.xml

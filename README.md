@@ -14,9 +14,23 @@ provider offering managed IT support, cloud migration, cybersecurity, network
 infrastructure, access management, and AI solutions. Built as a course exercise
 with plain HTML, CSS, and vanilla JavaScript — no frameworks, no build step.
 
-Sections: hero, services (6 cards), testimonials (desktop grid / mobile
-carousel), an enquiry form with full client-side validation and JSON `fetch()`
-submission, and a footer.
+Sections: hero, a trust/stats bar, services (6 cards), testimonials (desktop
+grid / mobile carousel), a lead-magnet email capture, an enquiry form with
+full client-side validation and JSON `fetch()` submission, and a footer.
+
+**Revamp additions** (built with the project's installed Agent Skills):
+- **SEO** (`seo-audit`): JSON-LD `ProfessionalService` structured data, canonical
+  tag, Twitter Card meta, `robots.txt` + `sitemap.xml`.
+- **Design** (`frontend-design`): a light/dark theme toggle (persisted per
+  visitor) and a trust bar whose four stats are underlined in the same four
+  colors as the logo's cross — a signature detail instead of a generic
+  gradient accent.
+- **Lead magnet** (`lead-magnet`): a "Free IT Security Readiness Checklist"
+  email-capture section, doubling as the asset the course brief's 10-second
+  popup hook will reuse later.
+- **Security** (`cybersecurity-analyst`): a `Content-Security-Policy` meta tag,
+  `maxlength`/`pattern` constraints on form inputs, and a short data-handling
+  note + trust badges next to the enquiry form.
 
 ## Install / run locally
 
@@ -35,7 +49,11 @@ Any static server works (`npx serve`, VS Code's Live Server, etc.) — Python's 
 just built-in on most machines.
 
 To point the enquiry form at a real endpoint, edit the `FORM_ENDPOINT` constant
-at the top of [script.js](script.js).
+at the top of [script.js](script.js) (and `LEAD_MAGNET_ENDPOINT` for the
+checklist opt-in). **If you switch either to a real domain, also update the
+`Content-Security-Policy` meta tag** in [index.html](index.html) — its
+`connect-src`/`form-action` currently only allow `'self'` and
+`https://example.com`, and will silently block `fetch()` to any other origin.
 
 ## Credits
 

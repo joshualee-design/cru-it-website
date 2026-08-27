@@ -30,6 +30,12 @@
   --color-hero-via: #1D6F8C;
   --color-hero-to: #3FAFC4;
 
+  /* Footer keeps a dedicated dark surface in both themes — kept separate
+     from --color-ink so redefining --color-ink for dark mode (a text
+     color) can't accidentally invert the footer's background. */
+  --color-footer-bg: #2A2B2D;
+  --color-header-bg: rgba(255, 255, 255, 0.92);
+
   /* Type */
   --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --fs-sm: 0.875rem;
@@ -67,6 +73,54 @@
   --transition-base: 250ms ease;
 
   --container-max: 1180px;
+}
+
+/* ==========================================================================
+   Dark theme — same token names, swapped values. Applies automatically via
+   OS preference, or manually via the header toggle (persisted to
+   localStorage as data-theme="dark"/"light" on <html>).
+   ========================================================================== */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-white: #FFFFFF;
+    --color-ink: #F3F5F6;
+    --color-text: #D2D6D9;
+    --color-text-muted: #9A9EA3;
+    --color-surface: #17191C;
+    --color-surface-alt: #1F2226;
+    --color-border: #33363A;
+
+    --color-primary: #4FC1DB;
+    --color-primary-dark: #3FAFC4;
+    --color-primary-light: #7ED8EB;
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.5);
+
+    --color-footer-bg: #0F1113;
+    --color-header-bg: rgba(23, 25, 28, 0.85);
+  }
+}
+:root[data-theme="dark"] {
+  --color-white: #FFFFFF;
+  --color-ink: #F3F5F6;
+  --color-text: #D2D6D9;
+  --color-text-muted: #9A9EA3;
+  --color-surface: #17191C;
+  --color-surface-alt: #1F2226;
+  --color-border: #33363A;
+
+  --color-primary: #4FC1DB;
+  --color-primary-dark: #3FAFC4;
+  --color-primary-light: #7ED8EB;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.5);
+
+  --color-footer-bg: #0F1113;
+  --color-header-bg: rgba(23, 25, 28, 0.85);
 }
 
 /* ==========================================================================
@@ -206,9 +260,18 @@ ul { list-style: none; margin: 0; padding: 0; }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--color-header-bg);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--color-border);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
 }
 
 .nav {
@@ -230,6 +293,34 @@ ul { list-style: none; margin: 0; padding: 0; }
 }
 .nav__logo img { border-radius: 4px; }
 .nav__logo-text { font-size: var(--fs-md); white-space: nowrap; }
+
+.nav__right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-alt);
+  color: var(--color-ink);
+  flex-shrink: 0;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+.theme-toggle:hover { border-color: var(--color-primary-light); }
+.theme-toggle__icon--moon { display: none; }
+:root[data-theme="dark"] .theme-toggle__icon--sun { display: none; }
+:root[data-theme="dark"] .theme-toggle__icon--moon { display: block; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle__icon--sun { display: none; }
+  :root:not([data-theme="light"]) .theme-toggle__icon--moon { display: block; }
+}
 
 .nav__toggle {
   display: none;
@@ -323,6 +414,42 @@ ul { list-style: none; margin: 0; padding: 0; }
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--space-4);
+}
+
+/* ==========================================================================
+   Trust bar (stats)
+   ========================================================================== */
+.stats {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding-block: var(--space-7);
+}
+.stats__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-6);
+  text-align: center;
+}
+.stats__swatch {
+  display: inline-block;
+  width: 28px;
+  height: 4px;
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-3);
+}
+.stats__swatch--teal { background: var(--color-primary-dark); }
+.stats__swatch--cyan { background: var(--color-primary-light); }
+.stats__swatch--gold { background: var(--color-accent); }
+.stats__swatch--amber { background: var(--color-accent-dark); }
+.stats__number {
+  font-size: var(--fs-2xl);
+  font-weight: 800;
+  color: var(--color-ink);
+}
+.stats__label {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
 }
 
 /* ==========================================================================
@@ -443,6 +570,49 @@ ul { list-style: none; margin: 0; padding: 0; }
 .testimonials__dot[aria-selected="true"] { background: var(--color-primary); }
 
 /* ==========================================================================
+   Lead magnet
+   ========================================================================== */
+.lead-magnet__panel {
+  background: linear-gradient(135deg, var(--color-surface-alt), var(--color-surface));
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-7);
+  text-align: center;
+}
+.lead-magnet__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
+  color: var(--color-white);
+  margin-bottom: var(--space-4);
+}
+.lead-magnet__title {
+  font-size: var(--fs-xl);
+  margin-bottom: var(--space-3);
+}
+.lead-magnet__text {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-6);
+}
+.lead-magnet__row {
+  display: flex;
+  gap: var(--space-3);
+  max-width: 480px;
+  margin-inline: auto;
+}
+.lead-magnet__row .form__input { flex: 1; }
+.lead-magnet__status { margin-top: var(--space-4); font-size: var(--fs-sm); }
+.lead-magnet__success {
+  color: var(--color-success);
+  font-weight: 600;
+  margin-top: var(--space-4);
+}
+
+/* ==========================================================================
    Enquiry form
    ========================================================================== */
 .enquiry__panel {
@@ -475,16 +645,39 @@ ul { list-style: none; margin: 0; padding: 0; }
 .form__status { text-align: center; margin-top: var(--space-4); font-size: var(--fs-sm); }
 .form__status--error { color: var(--color-error); }
 .form__status--success { color: var(--color-success); }
+.form__privacy {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  text-align: center;
+  margin-top: var(--space-4);
+}
+.form__privacy a { color: var(--color-primary); text-decoration: underline; }
 
 .enquiry__success { text-align: center; padding: var(--space-6) 0; }
 .enquiry__success-title { font-size: var(--fs-xl); margin-bottom: var(--space-3); }
 .enquiry__success-text { color: var(--color-text-muted); margin-bottom: var(--space-6); }
 
+.trust-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-6);
+  margin-top: var(--space-6);
+}
+.trust-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+}
+.trust-badge svg { color: var(--color-primary); flex-shrink: 0; }
+
 /* ==========================================================================
    Footer
    ========================================================================== */
 .site-footer {
-  background: var(--color-ink);
+  background: var(--color-footer-bg);
   color: rgba(255, 255, 255, 0.8);
   padding-block: var(--space-8) var(--space-6);
 }
@@ -532,6 +725,10 @@ ul { list-style: none; margin: 0; padding: 0; }
    Breakpoints (mobile-first: base styles above are mobile)
    ========================================================================== */
 @media (max-width: 767px) {
+  .lead-magnet__row { flex-direction: column; }
+}
+
+@media (max-width: 767px) {
   .nav__toggle { display: flex; }
   .nav__menu {
     position: absolute;
@@ -571,6 +768,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 
 @media (min-width: 768px) {
   .services__grid { grid-template-columns: repeat(2, 1fr); }
+  .stats__grid { grid-template-columns: repeat(4, 1fr); }
 }
 
 @media (min-width: 1024px) {
