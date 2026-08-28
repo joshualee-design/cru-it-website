@@ -521,6 +521,41 @@
     </div>
   </div>
 
+  <!-- ============ WHATSAPP WIDGET ============ -->
+  <div class="whatsapp-widget">
+    <div class="whatsapp-panel" id="whatsappPanel" hidden>
+      <div class="whatsapp-panel__header">
+        <img src="assets/logo.png" alt="" width="32" height="32">
+        <div>
+          <p class="whatsapp-panel__name">CRU Asia Limited</p>
+          <p class="whatsapp-panel__status">Typically replies within an hour</p>
+        </div>
+        <button type="button" class="whatsapp-panel__close" id="whatsappClose" aria-label="Close chat">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+        </button>
+      </div>
+
+      <div class="whatsapp-panel__body">
+        <p class="whatsapp-panel__greeting">Hi 👋 How can we help? Pick a question to start, or write your own.</p>
+        <div class="whatsapp-panel__suggestions">
+          <a class="whatsapp-suggestion" target="_blank" rel="noopener noreferrer" href="https://wa.me/6597909755?text=Hi%2C%20I%27d%20like%20a%20free%20IT%20consultation.">I'd like a free consultation</a>
+          <a class="whatsapp-suggestion" target="_blank" rel="noopener noreferrer" href="https://wa.me/6597909755?text=Hi%2C%20what%20services%20does%20CRU%20Asia%20offer%3F">What services do you offer?</a>
+          <a class="whatsapp-suggestion" target="_blank" rel="noopener noreferrer" href="https://wa.me/6597909755?text=Hi%2C%20I%20have%20an%20urgent%20IT%20support%20issue.">I have an urgent IT issue</a>
+          <a class="whatsapp-suggestion" target="_blank" rel="noopener noreferrer" href="https://wa.me/6597909755?text=Hi%2C%20could%20I%20get%20a%20quote%20for%20cybersecurity%20services%3F">Get a cybersecurity quote</a>
+        </div>
+      </div>
+
+      <a class="whatsapp-panel__cta" target="_blank" rel="noopener noreferrer" href="https://wa.me/6597909755">
+        <svg viewBox="0 0 32 32" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M16.004 3C9.377 3 4 8.377 4 15.004c0 2.35.653 4.55 1.786 6.427L4 29l7.74-1.752A11.94 11.94 0 0 0 16.004 27C22.63 27 28 21.623 28 15.004 28 8.377 22.63 3 16.004 3zm0 21.7c-1.99 0-3.85-.55-5.44-1.5l-.39-.23-4.6 1.04 1.08-4.48-.25-.41a9.66 9.66 0 0 1-1.5-5.1c0-5.36 4.36-9.72 9.72-9.72s9.72 4.36 9.72 9.72-4.36 9.68-9.34 9.68zm5.32-7.26c-.29-.15-1.72-.85-1.99-.95-.27-.1-.46-.15-.66.15-.2.29-.76.95-.93 1.15-.17.19-.34.22-.63.07-.29-.15-1.22-.45-2.33-1.44-.86-.77-1.44-1.71-1.61-2-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.15-.17.19-.29.29-.49.1-.19.05-.36-.02-.51-.07-.15-.66-1.59-.9-2.18-.24-.57-.48-.5-.66-.5-.17 0-.36-.02-.56-.02-.19 0-.51.07-.78.36-.27.29-1.02 1-1.02 2.43 0 1.43 1.04 2.82 1.19 3.01.15.19 2.05 3.13 4.97 4.39.69.3 1.24.48 1.66.61.7.22 1.34.19 1.84.12.56-.08 1.72-.7 1.96-1.38.24-.68.24-1.26.17-1.38-.07-.12-.26-.19-.55-.34z"></path></svg>
+        Start chat on WhatsApp
+      </a>
+    </div>
+
+    <button type="button" class="whatsapp-fab" id="whatsappToggle" aria-expanded="false" aria-controls="whatsappPanel" aria-label="Chat with us on WhatsApp">
+      <svg viewBox="0 0 32 32" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M16.004 3C9.377 3 4 8.377 4 15.004c0 2.35.653 4.55 1.786 6.427L4 29l7.74-1.752A11.94 11.94 0 0 0 16.004 27C22.63 27 28 21.623 28 15.004 28 8.377 22.63 3 16.004 3zm0 21.7c-1.99 0-3.85-.55-5.44-1.5l-.39-.23-4.6 1.04 1.08-4.48-.25-.41a9.66 9.66 0 0 1-1.5-5.1c0-5.36 4.36-9.72 9.72-9.72s9.72 4.36 9.72 9.72-4.36 9.68-9.34 9.68zm5.32-7.26c-.29-.15-1.72-.85-1.99-.95-.27-.1-.46-.15-.66.15-.2.29-.76.95-.93 1.15-.17.19-.34.22-.63.07-.29-.15-1.22-.45-2.33-1.44-.86-.77-1.44-1.71-1.61-2-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.15-.17.19-.29.29-.49.1-.19.05-.36-.02-.51-.07-.15-.66-1.59-.9-2.18-.24-.57-.48-.5-.66-.5-.17 0-.36-.02-.56-.02-.19 0-.51.07-.78.36-.27.29-1.02 1-1.02 2.43 0 1.43 1.04 2.82 1.19 3.01.15.19 2.05 3.13 4.97 4.39.69.3 1.24.48 1.66.61.7.22 1.34.19 1.84.12.56-.08 1.72-.7 1.96-1.38.24-.68.24-1.26.17-1.38-.07-.12-.26-.19-.55-.34z"></path></svg>
+    </button>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>

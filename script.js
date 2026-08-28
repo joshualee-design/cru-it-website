@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initEnquiryForm();
   initLeadMagnetForm();
   initEbookPopup();
+  initWhatsAppWidget();
   initCurrentYear();
 });
 
@@ -505,6 +506,49 @@ function initEbookPopup() {
 
   // Expose the timer id only for the test harness / manual debugging.
   overlay._ebookPopupTimer = timer;
+}
+
+/**
+ * initWhatsAppWidget
+ * Toggles the floating WhatsApp panel open/closed. Closes on: close button,
+ * clicking outside the widget, Escape, or clicking a suggestion/CTA link
+ * (which navigates away to WhatsApp in a new tab anyway).
+ */
+function initWhatsAppWidget() {
+  const toggle = document.getElementById('whatsappToggle');
+  const panel = document.getElementById('whatsappPanel');
+  const closeBtn = document.getElementById('whatsappClose');
+  if (!toggle || !panel) return;
+
+  function open() {
+    panel.hidden = false;
+    toggle.setAttribute('aria-expanded', 'true');
+    document.addEventListener('click', onOutsideClick);
+    document.addEventListener('keydown', onKeydown);
+  }
+
+  function close() {
+    panel.hidden = true;
+    toggle.setAttribute('aria-expanded', 'false');
+    document.removeEventListener('click', onOutsideClick);
+    document.removeEventListener('keydown', onKeydown);
+  }
+
+  function onOutsideClick(event) {
+    if (!panel.contains(event.target) && event.target !== toggle && !toggle.contains(event.target)) {
+      close();
+    }
+  }
+
+  function onKeydown(event) {
+    if (event.key === 'Escape') close();
+  }
+
+  toggle.addEventListener('click', () => {
+    if (panel.hidden) open();
+    else close();
+  });
+  closeBtn.addEventListener('click', close);
 }
 
 /**

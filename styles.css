@@ -36,6 +36,13 @@
   --color-footer-bg: #2A2B2D;
   --color-header-bg: rgba(255, 255, 255, 0.92);
 
+  /* Kept as the universally-recognized WhatsApp brand green regardless of
+     theme/palette — the widget's affordance depends on it reading as
+     WhatsApp at a glance; everything else about the widget (radius,
+     shadow, type, surface) follows the site's own tokens. */
+  --color-whatsapp: #25D366;
+  --color-whatsapp-dark: #1DA851;
+
   /* Type */
   --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --fs-sm: 0.875rem;
@@ -796,6 +803,110 @@ ul { list-style: none; margin: 0; padding: 0; }
   text-decoration: underline;
 }
 .popup__dismiss:hover { color: var(--color-ink); }
+
+/* ==========================================================================
+   WhatsApp widget
+   ========================================================================== */
+.whatsapp-widget {
+  position: fixed;
+  right: var(--space-5);
+  bottom: var(--space-5);
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-4);
+}
+
+.whatsapp-fab {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-whatsapp);
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-lg);
+  transition: transform var(--transition-fast), background var(--transition-fast);
+}
+.whatsapp-fab:hover { background: var(--color-whatsapp-dark); transform: scale(1.05); }
+
+.whatsapp-panel {
+  width: min(320px, calc(100vw - 2 * var(--space-5)));
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+.whatsapp-panel[hidden] { display: none; }
+
+.whatsapp-panel__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-whatsapp);
+  color: var(--color-white);
+}
+.whatsapp-panel__header img { border-radius: 50%; background: var(--color-white); flex-shrink: 0; }
+.whatsapp-panel__name { font-weight: 700; font-size: var(--fs-sm); }
+.whatsapp-panel__status { font-size: 0.75rem; opacity: 0.9; }
+.whatsapp-panel__close {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--color-white);
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+.whatsapp-panel__close:hover { opacity: 1; }
+
+.whatsapp-panel__body { padding: var(--space-5); }
+.whatsapp-panel__greeting {
+  font-size: var(--fs-sm);
+  color: var(--color-text);
+  background: var(--color-surface-alt);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-4);
+}
+.whatsapp-panel__suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.whatsapp-suggestion {
+  display: block;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-size: var(--fs-sm);
+  color: var(--color-primary);
+  text-align: center;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+.whatsapp-suggestion:hover { background: var(--color-surface-alt); border-color: var(--color-primary-light); }
+
+.whatsapp-panel__cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background: var(--color-whatsapp);
+  color: var(--color-white);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+}
+.whatsapp-panel__cta:hover { background: var(--color-whatsapp-dark); }
+
+@media (max-width: 479px) {
+  .whatsapp-widget { right: var(--space-4); bottom: var(--space-4); }
+  .whatsapp-fab { width: 52px; height: 52px; }
+}
 
 /* ==========================================================================
    Breakpoints (mobile-first: base styles above are mobile)
