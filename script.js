@@ -2,13 +2,16 @@
 
 /**
  * FORM_ENDPOINT
- * Placeholder endpoint for the enquiry form. Swap this for a real endpoint:
+ * Live Formspree endpoint for the enquiry form — submissions deliver to
+ * redacted-for-public-repo@example.invalid. To point this at a different backend instead:
  *   - Formspree:  'https://formspree.io/f/YOUR_FORM_ID'
  *   - Getform:    'https://getform.io/f/YOUR_FORM_ID'
  *   - Custom API: 'https://api.yourdomain.com/enquiries'
  * The form POSTs a JSON body: { name, email, phone, company, service, message }
+ * Also update the Content-Security-Policy meta tag in index.html
+ * (connect-src) if you swap in a different origin.
  */
-const FORM_ENDPOINT = 'https://example.com/api/enquiries';
+const FORM_ENDPOINT = 'https://formspree.io/f/xwlkkkek';
 
 /**
  * LEAD_MAGNET_ENDPOINT
@@ -262,7 +265,7 @@ function initEnquiryForm() {
     try {
       const response = await fetch(FORM_ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify(payload),
       });
 
@@ -365,7 +368,7 @@ function initLeadMagnetForm() {
     try {
       const response = await fetch(LEAD_MAGNET_ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({ email: emailInput.value.trim() }),
       });
 
@@ -479,7 +482,7 @@ function initEbookPopup() {
     try {
       const response = await fetch(LEAD_MAGNET_ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({ email: value, source: 'popup' }),
       });
 

@@ -25,7 +25,7 @@
        can't be set via <meta> (browser-enforced HTTP-header-only directive) —
        set it at the hosting layer (e.g. a Netlify/Vercel _headers file, or your
        API gateway) alongside X-Frame-Options if embedding this page is a concern. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; script-src 'self'; connect-src 'self' https://example.com; base-uri 'self'; form-action 'self' https://example.com;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; script-src 'self'; connect-src 'self' https://formspree.io https://example.com; base-uri 'self'; form-action 'self' https://formspree.io https://example.com;">
   <meta name="referrer" content="strict-origin-when-cross-origin">
 
   <link rel="icon" href="assets/logo.png" type="image/png">
