@@ -3,7 +3,8 @@
 /**
  * FORM_ENDPOINT
  * Live Formspree endpoint for the enquiry form — submissions deliver to
- * redacted-for-public-repo@example.invalid. To point this at a different backend instead:
+ * the recipient address configured in the Formspree dashboard for this
+ * form. To point this at a different backend instead:
  *   - Formspree:  'https://formspree.io/f/YOUR_FORM_ID'
  *   - Getform:    'https://getform.io/f/YOUR_FORM_ID'
  *   - Custom API: 'https://api.yourdomain.com/enquiries'

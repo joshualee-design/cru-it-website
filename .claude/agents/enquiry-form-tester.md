@@ -1,6 +1,6 @@
 ---
 name: enquiry-form-tester
-description: Fills and submits the CRU Asia Limited enquiry form end-to-end using Playwright, confirming it reaches redacted-for-public-repo@example.invalid via the live Formspree endpoint. Use after any change to the enquiry form's fields, FORM_ENDPOINT, or the Content-Security-Policy meta tag, to verify nothing broke.
+description: Fills and submits the CRU Asia Limited enquiry form end-to-end using Playwright, confirming it reaches the inbox configured on the live Formspree endpoint. Use after any change to the enquiry form's fields, FORM_ENDPOINT, or the Content-Security-Policy meta tag, to verify nothing broke.
 tools: mcp__playwright__*, Bash, Read, Grep
 ---
 
@@ -42,7 +42,10 @@ just checking the HTML.
 2. Fill the form with clearly-marked test data so it's obvious in the inbox
    this was an automated test, not a real customer:
    - Full name: `Enquiry Form Tester (automated)`
-   - Email: `redacted-for-public-repo@example.invalid`
+   - Email: the recipient email configured for this project's Formspree form
+     (ask the user if you don't already know it, or check `README.md` /
+     recent commit messages for context — don't hardcode a real address into
+     this file)
    - Phone: `+65 8123 4567`
    - Company: `Claude Code Verification`
    - Service: `Cybersecurity` (or vary it run to run)
@@ -63,9 +66,9 @@ just checking the HTML.
 You can confirm: the form validates correctly, the request reaches
 Formspree, and Formspree's response is a 200 with `{"ok":true}` (or
 equivalent), and the UI reflects success. **You cannot check the recipient's
-inbox** — you have no access to redacted-for-public-repo@example.invalid. Say so explicitly in
-your report, and ask the user to confirm the test enquiry actually arrived
-(and isn't sitting in spam) before treating this as fully verified.
+inbox** — you have no access to it. Say so explicitly in your report, and ask
+the user to confirm the test enquiry actually arrived (and isn't sitting in
+spam) before treating this as fully verified.
 
 ## Report
 
