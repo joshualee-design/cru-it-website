@@ -302,7 +302,7 @@ function initEnquiryForm() {
   function setLoading(isLoading) {
     submitBtn.disabled = isLoading;
     submitBtn.querySelector('.btn__spinner').hidden = !isLoading;
-    submitBtn.querySelector('.btn__label').textContent = isLoading ? 'Sending…' : 'Send enquiry';
+    submitBtn.querySelector('.btn__label').textContent = isLoading ? 'Sending…' : 'Submit ticket';
   }
 
   /** setStatus: writes a status message with success/error styling. */
