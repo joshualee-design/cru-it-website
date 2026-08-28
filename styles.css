@@ -722,6 +722,82 @@ ul { list-style: none; margin: 0; padding: 0; }
 .footer__legal a:hover { color: var(--color-primary-light); }
 
 /* ==========================================================================
+   eBook popup
+   ========================================================================== */
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5);
+  background: rgba(0, 0, 0, 0.5);
+  animation: popup-fade-in var(--transition-base) ease;
+}
+.popup-overlay[hidden] { display: none; }
+
+.popup {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-7) var(--space-6) var(--space-6);
+  text-align: center;
+  animation: popup-scale-in var(--transition-base) ease;
+}
+@keyframes popup-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes popup-scale-in { from { opacity: 0; transform: scale(0.95) translateY(8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .popup-overlay, .popup { animation: none; }
+}
+
+.popup__close {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-surface-alt);
+  color: var(--color-text-muted);
+}
+.popup__close:hover { background: var(--color-border); color: var(--color-ink); }
+
+.popup__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
+  color: var(--color-white);
+  margin-bottom: var(--space-4);
+}
+.popup__title { font-size: var(--fs-lg); margin-bottom: var(--space-3); }
+.popup__text { color: var(--color-text-muted); font-size: var(--fs-sm); margin-bottom: var(--space-5); }
+.popup__form .form__input { margin-bottom: var(--space-3); }
+.popup__status { margin-top: var(--space-3); font-size: var(--fs-sm); }
+.popup__success { color: var(--color-success); font-weight: 600; }
+.popup__dismiss {
+  display: inline-block;
+  margin-top: var(--space-4);
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: var(--fs-sm);
+  text-decoration: underline;
+}
+.popup__dismiss:hover { color: var(--color-ink); }
+
+/* ==========================================================================
    Breakpoints (mobile-first: base styles above are mobile)
    ========================================================================== */
 @media (max-width: 767px) {

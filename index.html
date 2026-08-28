@@ -481,6 +481,46 @@
     </div>
   </footer>
 
+  <!-- ============ EBOOK POPUP ============ -->
+  <!-- Shown once, 10s after first visit, via initEbookPopup() in script.js.
+       Offers the same "IT Security Readiness Checklist" as the inline
+       lead-magnet section above — one asset, two placements. -->
+  <div class="popup-overlay" id="ebookPopup" hidden>
+    <div class="popup" role="dialog" aria-modal="true" aria-labelledby="ebookPopupTitle" aria-describedby="ebookPopupText">
+      <button type="button" class="popup__close" id="ebookPopupClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+      </button>
+
+      <div class="popup__icon" aria-hidden="true">
+        <svg viewBox="0 0 48 48" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 6h18l6 6v28a2 2 0 0 1-2 2H12a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"></path>
+          <path d="M30 6v6h6"></path>
+          <path d="M16 24l4 4 8-8"></path>
+        </svg>
+      </div>
+
+      <h2 class="popup__title" id="ebookPopupTitle">Before you go — grab the free eBook</h2>
+      <p class="popup__text" id="ebookPopupText">The IT Security Readiness Checklist, straight to your inbox. No spam, unsubscribe anytime.</p>
+
+      <form id="ebookPopupForm" class="popup__form" novalidate>
+        <label class="sr-only" for="popup-email">Email address</label>
+        <input class="form__input" type="email" id="popup-email" name="popup-email" required autocomplete="email" placeholder="you@company.com">
+        <p class="form__error" id="popupEmailError" hidden></p>
+        <button type="submit" class="btn btn--primary btn--block" id="popupSubmitBtn">
+          <span class="btn__label">Send me the eBook</span>
+          <span class="btn__spinner" hidden aria-hidden="true"></span>
+        </button>
+        <p class="popup__status" id="popupStatus" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="popup__success" id="popupSuccess" hidden>
+        <p>Check your inbox — the eBook is on its way.</p>
+      </div>
+
+      <button type="button" class="popup__dismiss" id="popupNoThanks">No thanks</button>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>

@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTestimonialCarousel();
   initEnquiryForm();
   initLeadMagnetForm();
+  initEbookPopup();
   initCurrentYear();
 });
 
@@ -386,6 +387,124 @@ function initLeadMagnetForm() {
     submitBtn.querySelector('.btn__spinner').hidden = true;
     submitBtn.querySelector('.btn__label').textContent = 'Send me the checklist';
   }
+}
+
+/**
+ * initEbookPopup
+ * Shows the "free eBook" popup 10 seconds after page load, once per visitor
+ * (tracked in localStorage so it doesn't nag on every visit). Dismissible via
+ * the close button, "No thanks", clicking the overlay, or Escape; submitting
+ * the form counts as dismissed too. Reuses LEAD_MAGNET_ENDPOINT since it's
+ * the same underlying offer as the inline lead-magnet section.
+ */
+function initEbookPopup() {
+  const overlay = document.getElementById('ebookPopup');
+  if (!overlay) return;
+
+  const STORAGE_KEY = 'cru-ebook-popup-seen';
+  let alreadySeen = false;
+  try {
+    alreadySeen = localStorage.getItem(STORAGE_KEY) === 'true';
+  } catch (storageError) {
+    // Private browsing / disabled storage — fall back to showing it once per tab session.
+    alreadySeen = window.__cruEbookPopupShown === true;
+  }
+  if (alreadySeen) return;
+
+  const closeBtn = document.getElementById('ebookPopupClose');
+  const dismissBtn = document.getElementById('popupNoThanks');
+  const form = document.getElementById('ebookPopupForm');
+  const emailInput = document.getElementById('popup-email');
+  const emailError = document.getElementById('popupEmailError');
+  const submitBtn = document.getElementById('popupSubmitBtn');
+  const statusEl = document.getElementById('popupStatus');
+  const successEl = document.getElementById('popupSuccess');
+  const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  let previouslyFocused = null;
+
+  const timer = setTimeout(show, 10000);
+
+  function show() {
+    overlay.hidden = false;
+    previouslyFocused = document.activeElement;
+    emailInput.focus();
+    document.addEventListener('keydown', onKeydown);
+  }
+
+  function hide(markSeen) {
+    overlay.hidden = true;
+    document.removeEventListener('keydown', onKeydown);
+    if (previouslyFocused) previouslyFocused.focus();
+    if (markSeen) {
+      window.__cruEbookPopupShown = true;
+      try {
+        localStorage.setItem(STORAGE_KEY, 'true');
+      } catch (storageError) {
+        // Ignore — best effort only.
+      }
+    }
+  }
+
+  function onKeydown(event) {
+    if (event.key === 'Escape') hide(true);
+  }
+
+  overlay.addEventListener('click', (event) => {
+    if (event.target === overlay) hide(true);
+  });
+  closeBtn.addEventListener('click', () => hide(true));
+  dismissBtn.addEventListener('click', () => hide(true));
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const value = emailInput.value.trim();
+
+    if (!value || !EMAIL_REGEX.test(value)) {
+      emailInput.setAttribute('aria-invalid', 'true');
+      emailInput.setAttribute('aria-describedby', emailError.id);
+      emailError.textContent = 'Enter a valid email address.';
+      emailError.hidden = false;
+      return;
+    }
+    emailInput.removeAttribute('aria-invalid');
+    emailError.hidden = true;
+
+    submitBtn.disabled = true;
+    submitBtn.querySelector('.btn__spinner').hidden = false;
+    submitBtn.querySelector('.btn__label').textContent = 'Sending…';
+    statusEl.textContent = '';
+
+    try {
+      const response = await fetch(LEAD_MAGNET_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: value, source: 'popup' }),
+      });
+
+      if (!response.ok) {
+        statusEl.textContent = `Something went wrong (server responded ${response.status}). Please try again.`;
+        resetButton();
+        return;
+      }
+
+      form.hidden = true;
+      successEl.hidden = false;
+      setTimeout(() => hide(true), 2000);
+    } catch (networkError) {
+      statusEl.textContent = 'Network error — please check your connection and try again.';
+      resetButton();
+    }
+  });
+
+  function resetButton() {
+    submitBtn.disabled = false;
+    submitBtn.querySelector('.btn__spinner').hidden = true;
+    submitBtn.querySelector('.btn__label').textContent = 'Send me the eBook';
+  }
+
+  // Expose the timer id only for the test harness / manual debugging.
+  overlay._ebookPopupTimer = timer;
 }
 
 /**
