@@ -26,10 +26,16 @@
   --color-success: #1E7B4D;
   --color-error: #C8102E;
 
-  --color-hero-deep: #0B2733;
-  --color-hero-from: #14536A;
-  --color-hero-via: #1D6F8C;
-  --color-hero-to: #3FAFC4;
+  /* Hero "data corridor" gradient — near-black at top fading to a deep
+     teal-navy at the bottom. */
+  --color-hero-deep: #050B10;
+  --color-hero-from: #081620;
+  --color-hero-via: #0B222E;
+
+  /* Vivid neon cyan for the hero's data-corridor glow — brighter/more
+     saturated than --color-primary-light, which reads as muted against a
+     near-black backdrop. Amber glow reuses the existing --color-accent. */
+  --color-tech-cyan: #29E0FF;
 
   /* Footer keeps a dedicated dark surface in both themes — kept separate
      from --color-ink so redefining --color-ink for dark mode (a text
@@ -383,46 +389,24 @@ ul { list-style: none; margin: 0; padding: 0; }
   align-items: center;
   padding: var(--space-8) var(--space-5);
   color: var(--color-white);
-  /* Deep engineering-navy base (darker than the rest of the palette) so the
-     blueprint grid and circuit nodes read clearly, rather than a flat
-     marketing-gradient look. */
+  /* Near-black data-center base with soft cyan/amber ambient glow —
+     moodier and more "high-tech" than a flat brand gradient. */
   background:
-    radial-gradient(circle at 15% 20%, rgba(242, 169, 0, 0.14), transparent 45%),
-    radial-gradient(circle at 85% 80%, rgba(63, 175, 196, 0.18), transparent 50%),
-    linear-gradient(135deg, var(--color-hero-deep) 0%, var(--color-hero-from) 50%, var(--color-hero-via) 100%);
+    radial-gradient(ellipse at 50% 25%, rgba(41, 224, 255, 0.12), transparent 60%),
+    radial-gradient(circle at 88% 85%, rgba(242, 169, 0, 0.1), transparent 55%),
+    linear-gradient(180deg, var(--color-hero-deep) 0%, var(--color-hero-from) 55%, var(--color-hero-via) 100%);
   position: relative;
   overflow: hidden;
 }
-/* Fine blueprint grid — the finer of two grid scales, graph-paper texture. */
+/* Faint cyan-tinted grid texture across the whole hero. */
 .hero::before {
   content: "";
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    linear-gradient(rgba(41, 224, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(41, 224, 255, 0.05) 1px, transparent 1px);
   background-size: 14px 14px;
-  pointer-events: none;
-}
-/* Coarse blueprint grid + glowing circuit-node dots, in the brand's own
-   cross colors (teal/cyan/gold/amber) — the same signature device used for
-   the stats-bar underlines, so the hero reads as network/circuit
-   architecture rather than a generic gradient-and-blur hero. */
-.hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px),
-    radial-gradient(circle 3px at 12% 24%, rgba(63, 175, 196, 0.9), transparent 70%),
-    radial-gradient(circle 3px at 89% 18%, rgba(242, 169, 0, 0.85), transparent 70%),
-    radial-gradient(circle 2.5px at 93% 64%, rgba(63, 175, 196, 0.85), transparent 70%),
-    radial-gradient(circle 2.5px at 7% 72%, rgba(222, 124, 31, 0.8), transparent 70%),
-    radial-gradient(circle 2px at 48% 10%, rgba(242, 169, 0, 0.55), transparent 70%),
-    radial-gradient(circle 2px at 22% 90%, rgba(63, 175, 196, 0.55), transparent 70%),
-    radial-gradient(circle 2px at 74% 88%, rgba(222, 124, 31, 0.5), transparent 70%);
-  background-size: 64px 64px, 64px 64px, auto, auto, auto, auto, auto, auto, auto;
   pointer-events: none;
 }
 .hero__circuit {
@@ -432,6 +416,43 @@ ul { list-style: none; margin: 0; padding: 0; }
   pointer-events: none;
   overflow: hidden;
 }
+
+/* Perspective grid "floor" receding toward a horizon — the classic
+   CSS data-corridor trick: a flat grid rotated in 3D, faded out at the
+   far edge with a mask so it dissolves into the gradient above it.
+   Extended past the left/right edges so foreshortening never leaves a
+   visible gap at the sides. */
+.hero__floor {
+  position: absolute;
+  left: -25%;
+  right: -25%;
+  bottom: 0;
+  height: 60%;
+  background-image:
+    linear-gradient(rgba(41, 224, 255, 0.4) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(41, 224, 255, 0.4) 1px, transparent 1px);
+  background-size: 56px 56px;
+  transform: perspective(280px) rotateX(62deg);
+  transform-origin: bottom center;
+  -webkit-mask-image: linear-gradient(to top, black 0%, transparent 78%);
+  mask-image: linear-gradient(to top, black 0%, transparent 78%);
+  opacity: 0.55;
+}
+
+/* Soft bokeh glow blobs, cyan + amber. */
+.hero__glow { position: absolute; border-radius: 50%; filter: blur(50px); }
+.hero__glow--1 { width: 260px; height: 260px; top: -70px; left: 6%; background: radial-gradient(circle, rgba(41, 224, 255, 0.5), transparent 70%); }
+.hero__glow--2 { width: 320px; height: 320px; bottom: -100px; right: 4%; background: radial-gradient(circle, rgba(242, 169, 0, 0.35), transparent 70%); }
+.hero__glow--3 { width: 200px; height: 200px; top: 38%; left: 58%; background: radial-gradient(circle, rgba(41, 224, 255, 0.28), transparent 70%); }
+
+/* Glowing diagonal light-trail streaks. */
+.hero__streak { position: absolute; height: 2px; border-radius: 999px; }
+.hero__streak--1 { top: 16%; left: -8%; width: 55%; transform: rotate(-6deg); background: linear-gradient(90deg, transparent, rgba(41, 224, 255, 0.9), transparent); box-shadow: 0 0 14px 2px rgba(41, 224, 255, 0.55); }
+.hero__streak--2 { top: 30%; right: -10%; width: 42%; transform: rotate(5deg); background: linear-gradient(90deg, transparent, rgba(242, 169, 0, 0.85), transparent); box-shadow: 0 0 12px 2px rgba(242, 169, 0, 0.5); }
+.hero__streak--3 { top: 58%; left: -10%; width: 38%; transform: rotate(-3deg); background: linear-gradient(90deg, transparent, rgba(41, 224, 255, 0.7), transparent); box-shadow: 0 0 10px 2px rgba(41, 224, 255, 0.4); }
+.hero__streak--4 { top: 74%; right: 4%; width: 28%; transform: rotate(8deg); background: linear-gradient(90deg, transparent, rgba(41, 224, 255, 0.6), transparent); box-shadow: 0 0 10px 2px rgba(41, 224, 255, 0.35); }
+.hero__streak--5 { top: 88%; left: 18%; width: 32%; transform: rotate(-4deg); background: linear-gradient(90deg, transparent, rgba(242, 169, 0, 0.6), transparent); box-shadow: 0 0 10px 2px rgba(242, 169, 0, 0.35); }
+
 /* Large faded CRU crest, centered behind the headline. */
 .hero__watermark {
   position: absolute;
@@ -440,35 +461,31 @@ ul { list-style: none; margin: 0; padding: 0; }
   transform: translate(-50%, -50%);
   width: min(64vh, 680px);
   height: auto;
-  opacity: 0.16;
+  opacity: 0.14;
 }
 
-/* IT/AI line-art icons — same viewBox/paths as the Services cards below,
-   scaled up and dimmed, scattered around the hero's edges. */
+/* A couple of IT/AI line-art icons — same viewBox/paths as the Services
+   cards below, for consistency — kept to just two so they read as an
+   intentional detail rather than competing with the streaks/glow. */
 .hero__icon {
   position: absolute;
-  width: 92px;
-  height: 92px;
-  opacity: 0.42;
+  width: 88px;
+  height: 88px;
+  opacity: 0.4;
 }
 .hero__icon svg { width: 100%; height: 100%; display: block; }
-.hero__icon--1 { top: 14%; left: 7%; color: var(--color-primary-light); }
-.hero__icon--2 { top: 10%; left: 82%; width: 80px; height: 80px; color: var(--color-accent); }
-.hero__icon--3 { top: 58%; left: 87%; color: var(--color-primary-light); }
-.hero__icon--4 { top: 66%; left: 5%; width: 80px; height: 80px; color: var(--color-accent-dark); }
-.hero__icon--5 { top: 82%; left: 31%; width: 84px; height: 84px; color: var(--color-primary-light); opacity: 0.36; }
-
-.hero__trace { position: absolute; background: rgba(63, 175, 196, 0.4); }
-.hero__trace--1 { top: 22%; left: 14%; width: clamp(60px, 14vw, 180px); height: 2px; background: linear-gradient(90deg, rgba(63, 175, 196, 0.65), transparent); }
-.hero__trace--2 { top: 14%; left: calc(82% - clamp(60px, 12vw, 160px)); width: clamp(60px, 12vw, 160px); height: 2px; background: linear-gradient(90deg, transparent, rgba(242, 169, 0, 0.6)); }
-.hero__trace--3 { top: 22%; left: 14%; width: 2px; height: clamp(60px, 12vh, 140px); background: linear-gradient(180deg, rgba(63, 175, 196, 0.6), transparent); }
-.hero__trace--4 { top: calc(58% - clamp(60px, 12vh, 120px)); left: 87%; width: 2px; height: clamp(60px, 12vh, 120px); background: linear-gradient(0deg, rgba(63, 175, 196, 0.55), transparent); }
+.hero__icon--1 { top: 12%; left: 8%; color: var(--color-tech-cyan); }
+.hero__icon--2 { top: 68%; left: 84%; width: 76px; height: 76px; color: var(--color-accent); }
 
 @media (max-width: 767px) {
-  .hero__trace { display: none; }
-  .hero__icon { width: 56px; height: 56px; opacity: 0.32; }
-  .hero__icon--2, .hero__icon--4, .hero__icon--5 { width: 50px; height: 50px; }
-  .hero__watermark { width: min(46vh, 360px); opacity: 0.14; }
+  .hero__streak { width: 40%; }
+  .hero__glow { filter: blur(36px); }
+  .hero__glow--1, .hero__glow--2 { width: 180px; height: 180px; }
+  .hero__glow--3 { width: 140px; height: 140px; }
+  .hero__floor { height: 45%; opacity: 0.4; }
+  .hero__icon { width: 52px; height: 52px; opacity: 0.3; }
+  .hero__icon--2 { width: 46px; height: 46px; }
+  .hero__watermark { width: min(46vh, 360px); opacity: 0.12; }
 }
 
 .hero__content {
