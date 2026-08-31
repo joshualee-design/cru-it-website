@@ -389,12 +389,19 @@ ul { list-style: none; margin: 0; padding: 0; }
   align-items: center;
   padding: var(--space-8) var(--space-5);
   color: var(--color-white);
-  /* Near-black data-center base with soft cyan/amber ambient glow —
-     moodier and more "high-tech" than a flat brand gradient. */
+  /* Real data-center photo (assets/hero-bg.jpg, Pexels — free license,
+     photographer panumas nikhomkhai), darkened with a semi-transparent
+     navy/black scrim for text contrast, plus soft cyan/amber ambient glow
+     on top. The CSS circuit/streak overlay below adds a "digital HUD over
+     a real room" layer on top of this. */
   background:
-    radial-gradient(ellipse at 50% 25%, rgba(41, 224, 255, 0.12), transparent 60%),
-    radial-gradient(circle at 88% 85%, rgba(242, 169, 0, 0.1), transparent 55%),
-    linear-gradient(180deg, var(--color-hero-deep) 0%, var(--color-hero-from) 55%, var(--color-hero-via) 100%);
+    radial-gradient(ellipse at 50% 25%, rgba(41, 224, 255, 0.14), transparent 60%),
+    radial-gradient(circle at 88% 85%, rgba(242, 169, 0, 0.12), transparent 55%),
+    linear-gradient(180deg, rgba(5, 11, 16, 0.87) 0%, rgba(8, 22, 32, 0.82) 55%, rgba(11, 34, 46, 0.78) 100%),
+    url('assets/hero-bg.jpg');
+  background-size: auto, auto, auto, cover;
+  background-position: center, center, center, center;
+  background-repeat: no-repeat;
   position: relative;
   overflow: hidden;
 }

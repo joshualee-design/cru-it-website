@@ -61,3 +61,7 @@ checklist opt-in). **If you switch either to a real domain, also update the
 
 Built with [Claude Code](https://claude.com/code) as part of the WSQ *Agentic AI
 Applications with Claude Code* course.
+
+Hero background photo by [panumas nikhomkhai](https://www.pexels.com/@cookiecutter) via
+[Pexels](https://www.pexels.com/photo/computer-server-in-data-center-room-17489163/)
+(free to use, no attribution required — credited here anyway).
